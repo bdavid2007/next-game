@@ -1,5 +1,5 @@
 public class NextGame {
-    public void intialize() {
+    public void initialize() {
         System.out.println("Running game");
     }
 }
