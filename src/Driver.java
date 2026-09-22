@@ -1,5 +1,6 @@
 public class Driver {
     public static void main(String[] args) {
-        System.out.println("Wake up");
-    } 
+        NextGame game = new NextGame();
+        game.initialize();
+    }
 }
