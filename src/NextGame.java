@@ -9,11 +9,19 @@ public class NextGame {
     private int curRound = 0, sequenceLength = 5;
     boolean isGameRunning = true;
     private Scanner sc;
+    private User curUser;
 
 
     public void initialize() {
+        String inputUser;
         sc = new Scanner(System.in);
         correctAnswer = generateCorrectNumberSequence();
+
+        System.out.println("Enter a user name: ");
+        inputUser = sc.next().trim().toLowerCase();
+
+        curUser = new User(inputUser);
+
 
         System.out.println("Running game...\n\n");
         System.out.println("Game: " + name);
@@ -92,7 +100,9 @@ public class NextGame {
         if(checkAnswer(input))
         {
             System.out.printf("\nYou guessed the sequence in %s turns.\n", curRound);
+            curUser.SetScore(curRound);
             isGameRunning = false;
+            Sound.Play("Fire")
         }
     }
 

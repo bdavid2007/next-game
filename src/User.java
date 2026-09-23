@@ -4,16 +4,14 @@ import java.io.PrintWriter;
 
 public class User {
 	public String name;
-	public int score;
 	public int highscore;
 	private static String fileName = "users.csv";
 	private static String fileHeader = "name,highscore";
 	public static String[][] users;
 
-	public User(String name, int score, int highscore) {
+	public User(String name) {
 		this.name = name;
-		this.score = score;
-		this.highscore = highscore;
+		this.highscore = 0;
 	}
 
 	private int getCSVLength() {
