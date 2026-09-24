@@ -20,22 +20,20 @@ public class NextGame {
         
         correctAnswer = generateCorrectNumberSequence();
 
-        System.out.println("Enter a user name: ");
+        System.out.print("\nEnter a user name: ");
         inputUser = sc.nextLine().trim().toLowerCase();
 
         curUser = new User(inputUser);
 
 
-        System.out.println("Running game...\n\n");
+        System.out.println("\nRunning game...\n\n");
         System.out.println("Game: " + name);
         System.out.println("Objective: Identify the Sequence of 5 numbers between 1 and 5 using the fewest turns. If you wish to quit guessing and give up, enter a ZERO for one of your guesses and the game will display the solution and quit.");
-        System.out.println("GOOD LUCK!!!");
+        System.out.println("GOOD LUCK!!!\n");
 
         while (isGameRunning) {
             startRound();
         }
-
-        System.out.printf("\n\nGame Number Sequence\n%s\n\n", correctAnswer);
     }
 
     String generateCorrectNumberSequence()
@@ -84,7 +82,7 @@ public class NextGame {
         
         while(!inputProvenValid) // We goin to get an input outta you boy
         {
-            System.out.printf("\n== Turn %s == Number Sequence: ", curRound);
+            System.out.printf("== Turn %s == Number Sequence: ", curRound);
             inputProvenValid = true;
             tempEvilInput = "";
 
@@ -158,6 +156,7 @@ public class NextGame {
     private boolean checkAnswer(String input)
     {
         int correctCount = 0;
+        String evilnumba = "s are";
         int i;
 
         for(i = 0; i < input.length(); i++)
@@ -170,11 +169,13 @@ public class NextGame {
 
         if(correctCount == sequenceLength)
         {
-            System.out.printf("\nAll %s numbers are correct!\n", correctCount);
+            System.out.printf("All %s numbers are correct!\n", correctCount);
             return true;
         }
 
-        System.out.printf("\n%s numbers are correct.\n", correctCount);
+        if(correctCount == 1) evilnumba = " is";
+
+        System.out.printf("%s number%s correct.\n", correctCount, evilnumba);
         return false;
     }
 }
