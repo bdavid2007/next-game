@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class User {
     public String name;
     public int highscore;
-    private static final String fileName = "users.csv";
-    private static final String fileHeader = "name,highscore";
+    private static final String FILE_NAME = "users.csv";
+    private static final String FILE_HEADER = "name,highscore";
     public static String[][] users = new String[0][2]; // Initialize safely
 
     public User(String name) {
@@ -17,7 +17,7 @@ public class User {
 
     private int getCSVLength() {
         try {
-            File file = new File(fileName);
+            File file = new File(FILE_NAME);
             if (!file.exists()) return 0;
 
             Scanner countSc = new Scanner(file);
@@ -30,7 +30,8 @@ public class User {
             }
             countSc.close();
             return fileLength;
-        } catch (Exception exception) {
+        }
+		catch (Exception exception) {
             System.err.println("Error counting rows: " + exception);
         }
         return 0;
@@ -44,7 +45,7 @@ public class User {
             int actualStoredRows = 0;
             boolean userExists = false;
 
-            File file = new File(fileName);
+            File file = new File(FILE_NAME);
             if (file.exists() && fileLength > 0) {
                 Scanner readSc = new Scanner(file);
                 readSc.nextLine(); // Skip header
@@ -93,8 +94,8 @@ public class User {
 
     public void updateUsersCSV() {
         try {
-            PrintWriter writer = new PrintWriter(new File(fileName));
-            writer.println(fileHeader);
+            PrintWriter writer = new PrintWriter(new File(FILE_NAME));
+            writer.println(FILE_HEADER);
 
             // Dynamically safeguard bounds: write up to a maximum of 5 lines
             int rowsToWrite = Math.min(5, users.length);
