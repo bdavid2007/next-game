@@ -21,7 +21,7 @@ public class NextGame {
         correctAnswer = generateCorrectNumberSequence();
 
         System.out.println("Enter a user name: ");
-        inputUser = sc.next().trim().toLowerCase();
+        inputUser = sc.nextLine().trim().toLowerCase();
 
         curUser = new User(inputUser);
 
@@ -74,16 +74,44 @@ public class NextGame {
 
     private void startRound()
     {
-        curRound++;
         int i, j;
-        boolean inputProvenValid = false, characterProvenValid;
+        boolean inputProvenValid = false, 
+            characterProvenValid;
+        String unprocessedInput;
+        String tempEvilInput, tempEvilInput2;
+        curRound++;
+
         
         while(!inputProvenValid) // We goin to get an input outta you boy
         {
             System.out.printf("\n== Turn %s == Number Sequence: ", curRound);
             inputProvenValid = true;
+            tempEvilInput = "";
 
-            input = sc.next().trim().toLowerCase();
+            unprocessedInput = sc.nextLine().trim().toLowerCase();
+
+            if(unprocessedInput.split(" ").length > 1)
+            {
+                for(i = 0; i < unprocessedInput.split(" ").length; i++)
+                {
+                    tempEvilInput2 = unprocessedInput.split(" ")[i];
+                    if(tempEvilInput2.equals("one")) tempEvilInput += 1;
+                    else if(tempEvilInput2.equals("two")) tempEvilInput += 2;
+                    else if(tempEvilInput2.equals("three")) tempEvilInput += 3;
+                    else if(tempEvilInput2.equals("four")) tempEvilInput += 4;
+                    else if(tempEvilInput2.equals("five")) tempEvilInput += 5;
+                    else if(tempEvilInput2.equals("six")) tempEvilInput += 6;
+                    else if(tempEvilInput2.equals("seven")) tempEvilInput += 7;
+                    else if(tempEvilInput2.equals("eight")) tempEvilInput += 8;
+                    else if(tempEvilInput2.equals("nine")) tempEvilInput += 9;
+                    else tempEvilInput += tempEvilInput2;
+                }
+
+                input = tempEvilInput;
+            }
+            else input = unprocessedInput;
+
+
 
             if(input.equals("zero") || input.equals("0")){
                 isGameRunning = false;
@@ -101,29 +129,28 @@ public class NextGame {
 
                 if(characterProvenValid == false) { // If no matching character was found...
                     inputProvenValid = false;
+                    System.out.printf("\n\n%s is not a valid input. Please try again.\n", input);
+                    return;
                 }
             }
 
             if(input.length() < sequenceLength){
                 inputProvenValid = false;
                 System.out.printf("\n\n%s is too short of an input. Please try again.\n", input);
+                return;
             }
 
             if(input.length() > sequenceLength){
                 inputProvenValid = false;
                 System.out.printf("\n\n%s is too long of an input. Please try again.\n", input);
-            }
-
-            if(inputProvenValid == false) // If the input couldn't be validated...
-            {
-                System.out.printf("\n\n%s is not a valid input. Please try again.\n", input);
+                return;
             }
         }
 
         if(checkAnswer(input))
         {
             System.out.printf("\nYou guessed the sequence in %s turns.\n", curRound);
-            //curUser.setHighscore(curRound);
+            curUser.endGame(curRound);
             isGameRunning = false;
         }
     }
