@@ -1,6 +1,6 @@
 import java.io.File;
-import java.util.Scanner;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class User {
 	public String name;
@@ -111,16 +111,20 @@ public class User {
 		}
 	}
 
-	public void addUserToCSV() {
-		updateUsersArray();
-		updateUsersCSV();
-	}
-
 	public void printUsersData() {
 		System.out.println("High Scores\n---------------");
 		int index;
 		for (index = 0; index < users.length; index++) {
 			System.out.printf("%2d - %s\n", users[index][1], users[index][0]);
 		}
+	}
+
+	public void endGame(int score) {
+		if (score > this.highscore) {
+			this.highscore = score;
+		}
+		updateUsersArray();
+		updateUsersCSV();
+		printUsersData();
 	}
 }
