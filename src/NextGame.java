@@ -5,7 +5,7 @@ public class NextGame {
     public String name = "What's Next";
     private String correctAnswer;
     private String input;
-    private String possibleInputs = "12345";
+    private String possibleInputs;
     private int curRound = 0, sequenceLength = 5;
     boolean isGameRunning = true;
     private Scanner sc;
@@ -15,6 +15,9 @@ public class NextGame {
     public void initialize() {
         String inputUser;
         sc = new Scanner(System.in);
+        possibleInputs = gatherPossibleInputs();
+
+        
         correctAnswer = generateCorrectNumberSequence();
 
         System.out.println("Enter a user name: ");
@@ -38,15 +41,35 @@ public class NextGame {
     String generateCorrectNumberSequence()
     {
         Random rand = new Random();
+        String unsortedNums = possibleInputs;
         String answer = "";
+        String temp = "";
         int i;
+        int index;
 
         for(i = 0; i < sequenceLength; i++)
         {
-            answer += (1 + rand.nextInt(sequenceLength));    
+            index = rand.nextInt(unsortedNums.length());
+            answer += unsortedNums.charAt(index);
+            temp = unsortedNums.substring(index + 1);
+
+            unsortedNums = unsortedNums.substring(0, index) + temp;
         }
 
         return answer;
+    }
+
+    String gatherPossibleInputs()
+    {
+        String tempPossibleInputs = "";
+        int i;
+
+        for(i = 1; i <= sequenceLength; i++)
+        {
+            tempPossibleInputs += i;
+        }
+
+        return tempPossibleInputs;
     }
 
     private void startRound()
@@ -100,9 +123,8 @@ public class NextGame {
         if(checkAnswer(input))
         {
             System.out.printf("\nYou guessed the sequence in %s turns.\n", curRound);
-            curUser.SetScore(curRound);
+            //curUser.setHighscore(curRound);
             isGameRunning = false;
-            Sound.Play("Fire")
         }
     }
 
