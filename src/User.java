@@ -115,7 +115,7 @@ public class User {
 		System.out.println("High Scores\n---------------");
 		int index;
 		for (index = 0; index < users.length; index++) {
-			System.out.printf("%2d - %s\n", users[index][1], users[index][0]);
+			System.out.printf("%2s - %s\n", users[index][1], users[index][0]);
 		}
 	}
 
