@@ -8,7 +8,7 @@ public class User {
     public int highscore;
     private static final String FILE_NAME = "users.csv";
     private static final String FILE_HEADER = "name,highscore";
-    public static String[][] users = new String[0][2]; // Initialize safely
+    public static String[][] users = new String[0][2];
 
     public User(String name) {
         this.name = name;
@@ -39,8 +39,8 @@ public class User {
 
     public void updateUsersArray() {
         try {
+            // Allocate space for users
             int fileLength = getCSVLength();
-            // Allocate space for existing users + 1 potential new entry
             String[][] allUsers = new String[fileLength + 1][2];
             int actualStoredRows = 0;
             boolean userExists = false;
@@ -58,7 +58,7 @@ public class User {
                     if (this.name.equalsIgnoreCase(data[0])) {
                         userExists = true;
                         allUsers[actualStoredRows][0] = data[0];
-                        // Fewest turns wins: Keep the LOWER score
+                        // Keep the LOWER score
                         int finalHighscore = Math.min(Integer.parseInt(data[1]), this.highscore);
                         allUsers[actualStoredRows][1] = String.valueOf(finalHighscore);
                     } else {
@@ -99,7 +99,7 @@ public class User {
             writer.println(FILE_HEADER);
             int index;
 
-            // Dynamically safeguard bounds: write up to a maximum of 5 lines
+            // Write a maximum of 5 lines
             int rowsToWrite = Math.min(5, users.length);
             for (index = 0; index < rowsToWrite; index++) {
                 if (users[index][0] != null) {
