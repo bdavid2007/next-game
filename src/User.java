@@ -79,12 +79,13 @@ public class User {
 
             // Trim out unused rows safely
             String[][] cleanUsers = new String[actualStoredRows][2];
-            System.arraycopy(allUsers, 0, cleanUsers, 0, actualStoredRows);
+            int index;
+            for (index = 0; index < actualStoredRows; index++) {
+                cleanUsers[index] = allUsers[index];
+            }
 
-            // Sort from lowest turns to highest turns
+            // Sort from lowest turns to highest turns and update users array
             Arrays.sort(cleanUsers, (a, b) -> Integer.compare(Integer.parseInt(a[1]), Integer.parseInt(b[1])));
-            
-            // Commit to global users variable
             users = cleanUsers;
         }
 		catch (Exception exception) {
@@ -96,12 +97,13 @@ public class User {
         try {
             PrintWriter writer = new PrintWriter(new File(FILE_NAME));
             writer.println(FILE_HEADER);
+            int index;
 
             // Dynamically safeguard bounds: write up to a maximum of 5 lines
             int rowsToWrite = Math.min(5, users.length);
-            for (int i = 0; i < rowsToWrite; i++) {
-                if (users[i][0] != null) {
-                    writer.println(users[i][0] + "," + users[i][1]);
+            for (index = 0; index < rowsToWrite; index++) {
+                if (users[index][0] != null) {
+                    writer.println(users[index][0] + "," + users[index][1]);
                 }
             }
             writer.close();
@@ -112,9 +114,10 @@ public class User {
     }
 
     public void printUsersData() {
+        int index;
         System.out.println("\nHigh Scores\n---------------");
         int rowsToPrint = Math.min(5, users.length);
-        for (int index = 0; index < rowsToPrint; index++) {
+        for (index = 0; index < rowsToPrint; index++) {
             System.out.printf("%2s - %s\n", users[index][1], users[index][0]);
         }
     }
