@@ -20,6 +20,8 @@ public class NextGame {
         
         correctAnswer = generateCorrectNumberSequence();
 
+        System.out.println(correctAnswer);
+
         System.out.print("\nEnter a user name: ");
         inputUser = sc.nextLine().trim().toLowerCase();
 
@@ -28,8 +30,8 @@ public class NextGame {
 
         System.out.println("\nRunning game...\n\n");
         System.out.println("Game: " + name);
-        System.out.println("Objective: Identify the Sequence of 5 numbers between 1 and 5 using the fewest turns. If you wish to quit guessing and give up, enter a ZERO for one of your guesses and the game will display the solution and quit.");
-        System.out.println("GOOD LUCK!!!\n");
+        System.out.printf("Objective: Identify the Sequence of %s numbers between 1 and %s using the fewest turns. If you wish to quit guessing and give up, enter a ZERO for one of your guesses and the game will display the solution and quit.", sequenceLength, sequenceLength);
+        System.out.println(" GOOD LUCK!!!\n");
 
         while (isGameRunning) {
             startRound();
@@ -74,7 +76,8 @@ public class NextGame {
     {
         int i, j;
         boolean inputProvenValid = false, 
-            characterProvenValid;
+            characterProvenValid,
+            stupidboolean;
         String unprocessedInput;
         String tempEvilInput, tempEvilInput2;
         curRound++;
@@ -82,6 +85,7 @@ public class NextGame {
         
         while(!inputProvenValid) // We goin to get an input outta you boy
         {
+            stupidboolean = false;
             System.out.printf("== Turn %s == Number Sequence: ", curRound);
             inputProvenValid = true;
             tempEvilInput = "";
@@ -127,27 +131,42 @@ public class NextGame {
 
                 if(characterProvenValid == false) { // If no matching character was found...
                     inputProvenValid = false;
-                    System.out.printf("\n\n%s is not a valid input. Please try again.\n", input);
-                    return;
                 }
             }
 
-            if(input.length() < sequenceLength){
+            if(input.length() < sequenceLength && inputProvenValid){
                 inputProvenValid = false;
-                System.out.printf("\n\n%s is too short of an input. Please try again.\n", input);
-                return;
+                System.out.printf("%s is too short of an input. Please try again.\n", input);
+                stupidboolean = true;
             }
 
-            if(input.length() > sequenceLength){
+            if(input.length() > sequenceLength && inputProvenValid){
                 inputProvenValid = false;
-                System.out.printf("\n\n%s is too long of an input. Please try again.\n", input);
-                return;
+                System.out.printf("%s is too long of an input. Please try again.\n", input);
+                stupidboolean = true;
+            }
+
+
+            if(inputProvenValid == false && !stupidboolean) { // If no matching character was found...
+                System.out.printf("%s is not a valid input. Please try again.\n", input);
             }
         }
 
         if(checkAnswer(input))
         {
             System.out.printf("\nYou guessed the sequence in %s turns.\n", curRound);
+            System.out.println("\nGame Number Sequence");
+            System.out.printf("\n---------------------\n", curRound);
+            System.out.printf("| %s", correctAnswer.charAt(0));
+
+            for(i = 1; i < correctAnswer.length() - 1; i++)
+            {
+                System.out.printf(" | %s", correctAnswer.charAt(i));
+            }
+
+            System.out.printf(" | %s |", correctAnswer.charAt(correctAnswer.length() - 1));
+
+            System.out.printf("\n---------------------\n", curRound);
             curUser.endGame(curRound);
             isGameRunning = false;
         }
@@ -169,7 +188,7 @@ public class NextGame {
 
         if(correctCount == sequenceLength)
         {
-            System.out.printf("All %s numbers are correct!\n", correctCount);
+            System.out.printf("All %s numbers are correct!\n\n", correctCount);
             return true;
         }
 
